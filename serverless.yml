@@ -1,0 +1,40 @@
+# Welcome to Serverless!
+#
+# This file is the main config file for your service.
+# It's very minimal at this point and uses default values.
+# You can always add more config options for more control.
+# We've included some commented out config examples here.
+# Just uncomment any of them to get that config option.
+#
+# For full config options, check the docs:
+#    docs.serverless.com
+#
+# Happy Coding!
+
+service: aws-lambda-authorizer-template
+
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: python3.8
+  region: ap-southeast-1
+  lambdaHashingVersion: 20201221
+  environment:
+    CLIENT_ID_SSM_PARAMETER_NAME: cognito-app-client-id
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "kms:Decrypt"
+        - "ssm:DescribeParameters"
+        - "ssm:GetParameter"
+      Resource: "*"
+
+functions:
+  authorize:
+    handler: handler.authenticate
+    events:
+      - http:
+          path: authenticate
+          method: post
+          cors: true
