@@ -1,4 +1,5 @@
 import json
+import logging
 import os
 
 import boto3
@@ -17,7 +18,7 @@ def authenticate(event, context):
     Authenticates to AWS Cognito's Identity Pool then
     returns the user's access tokens if valid.
     """
-    parameters = event['body']
+    parameters = json.loads(event['body'])
     response = AWS_COGNITO_IDENTITY_POOL.initiate_auth(
         ClientId=USER_POOL_CLIENT_ID,
         AuthFlow='USER_PASSWORD_AUTH',
