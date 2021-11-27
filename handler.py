@@ -24,6 +24,11 @@ def authenticate(event, context):
         AuthFlow='USER_PASSWORD_AUTH',
         AuthParameters=parameters
     )
+    if response.get('AuthenticationResult'):
+        access_token = response['AuthenticationResult']['AccessToken']
+        response['User'] = AWS_COGNITO_IDENTITY_POOL.get_user(
+            AccessToken=access_token
+        )
     return {
         "statusCode": 200,
         "body": json.dumps(response)
