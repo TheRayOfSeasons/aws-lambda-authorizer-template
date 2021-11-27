@@ -24,14 +24,7 @@ def authenticate(event, context):
         AuthFlow='USER_PASSWORD_AUTH',
         AuthParameters=parameters
     )
-    if response.get('AuthenticationResult'):
-        return {
-            "statusCode": 200,
-            "body": json.dumps({
-                'access_token': response['AuthenticationResult']['AccessToken']
-            })
-        }
     return {
-        "statusCode": 202,
+        "statusCode": 200,
         "body": json.dumps(response)
     }
